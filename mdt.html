@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MDT — Landry Doriot</title>
+  <link rel="shortcut icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/464920bd8b.js" crossorigin="anonymous"></script>
+  <style>
+    :root{
+      --primary:#0ea5e9;--primary-dark:#0284c7;--primary-light:#38bdf8;
+      --accent:#8b5cf6;--gray:#64748b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#0f172a;color:#e2e8f0;overflow-x:hidden;line-height:1.6}
+
+    .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%)}
+    .bg-gradient::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,0.12) 0%,transparent 70%);top:5%;right:5%;animation:float 20s infinite ease-in-out}
+    .bg-gradient::after{content:'';position:absolute;width:350px;height:350px;background:radial-gradient(circle,rgba(139,92,246,0.12) 0%,transparent 70%);bottom:10%;left:10%;animation:float 28s infinite ease-in-out reverse}
+    @keyframes float{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-40px)}66%{transform:translate(-15px,15px)}}
+
+    /* NAV */
+    header{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(15,23,42,0.85);border-bottom:1px solid rgba(148,163,184,0.1);transition:all .3s}
+    header.scrolled{background:rgba(15,23,42,0.97);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+    .nav-container{max-width:1300px;margin:0 auto;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.1rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:0}
+    .logo span{color:var(--primary-light)}
+    .logo:hover{opacity:.8}.logo-l{color:var(--primary-light)}.logo-name{color:#fff}.logo-fr{color:var(--primary-light)}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:#cbd5e1;text-decoration:none;font-weight:500;padding:.5rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.1);transition:all .3s;font-size:.95rem}
+    .back-btn:hover{background:rgba(14,165,233,0.1);border-color:var(--primary);color:#fff}
+
+    /* HERO */
+    .project-hero{padding:8rem 2rem 4rem;max-width:1300px;margin:0 auto}
+    .project-hero-inner{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start}
+    .project-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(14,165,233,0.15);border:1px solid rgba(14,165,233,0.3);color:var(--primary-light);padding:.35rem .9rem;border-radius:20px;font-size:.85rem;font-weight:600;margin-bottom:1rem}
+    .project-hero h1{font-size:3rem;font-weight:800;line-height:1.15;margin-bottom:1rem;background:linear-gradient(135deg,#fff 0%,var(--primary-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .project-hero .lead{font-size:1.15rem;color:var(--gray);max-width:700px;line-height:1.7}
+    .project-meta{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:.8rem;min-width:220px}
+    .meta-item{display:flex;flex-direction:column;gap:2px}
+    .meta-label{font-size:.75rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em}
+    .meta-value{font-size:.95rem;font-weight:600;color:#fff}
+    .meta-divider{height:1px;background:rgba(255,255,255,0.08)}
+
+    /* CONTAINER */
+    .content{max-width:1300px;margin:0 auto;padding:0 2rem 5rem}
+
+    /* SECTION BLOCKS */
+    .block{margin-bottom:3rem}
+    .block-title{display:flex;align-items:center;gap:.8rem;font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:1.5rem}
+    .block-title i{width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+
+    /* DESCRIPTION */
+    .description-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:2rem}
+    .description-card p{color:#cbd5e1;line-height:1.8;margin-bottom:1rem}
+    .description-card p:last-child{margin-bottom:0}
+
+    /* TECH TAGS */
+    .tech-tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+    .tech-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.2);color:var(--primary-light);padding:.3rem .85rem;border-radius:20px;font-size:.85rem;font-weight:500}
+    .tech-tag i{font-size:.75rem}
+
+    /* SCHEMAS */
+    .schemas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem}
+    .schema-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;transition:all .3s;cursor:pointer}
+    .schema-card:hover{border-color:rgba(14,165,233,0.4);box-shadow:0 15px 40px rgba(14,165,233,0.2);transform:translateY(-4px)}
+    .schema-img-wrapper{position:relative;overflow:hidden;background:rgba(0,0,0,0.3);min-height:220px;display:flex;align-items:center;justify-content:center}
+    .schema-img-wrapper img{width:100%;height:auto;display:block;transition:transform .4s}
+    .schema-card:hover .schema-img-wrapper img{transform:scale(1.03)}
+    .schema-overlay{position:absolute;inset:0;background:rgba(14,165,233,0.15);opacity:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s;font-size:2rem;color:#fff}
+    .schema-card:hover .schema-overlay{opacity:1}
+    .schema-placeholder{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:2.5rem;color:var(--gray);text-align:center}
+    .schema-placeholder i{font-size:2.5rem;color:rgba(14,165,233,0.3)}
+    .schema-placeholder span{font-size:.85rem}
+    .schema-info{padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,0.07)}
+    .schema-name{font-weight:600;color:#fff;font-size:.95rem;margin-bottom:.2rem}
+    .schema-desc{font-size:.82rem;color:var(--gray)}
+
+    /* LIGHTBOX */
+    .lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(15px);display:none;align-items:center;justify-content:center;padding:1rem}
+    .lightbox.active{display:flex}
+    .lightbox img{max-width:90vw;max-height:88vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,0.6);object-fit:contain}
+    .lightbox-close{position:absolute;top:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+    .lightbox-close:hover{background:rgba(255,255,255,0.2)}
+    .lightbox-caption{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.1);padding:.6rem 1.5rem;border-radius:30px;color:#fff;font-size:.9rem;white-space:nowrap}
+
+    /* PDF VIEWER */
+    .pdf-viewer-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden}
+    .pdf-tabs{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,0.08)}
+    .pdf-tab{padding:.9rem 1.5rem;font-size:.9rem;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;transition:all .25s;background:none;border-top:none;border-left:none;border-right:none}
+    .pdf-tab.active{color:var(--primary-light);border-bottom-color:var(--primary)}
+    .pdf-tab:hover:not(.active){color:#fff}
+    .pdf-panel{display:none}
+    .pdf-panel.active{display:block}
+    .pdf-embed-wrap{position:relative;padding-bottom:70%;height:0}
+    .pdf-embed-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+    .pdf-toolbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:rgba(0,0,0,0.2);border-top:1px solid rgba(255,255,255,0.06)}
+    .pdf-toolbar span{font-size:.85rem;color:var(--gray)}
+    .btn{padding:.7rem 1.4rem;border-radius:10px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .3s;border:none;cursor:pointer;font-size:.9rem}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 8px 20px rgba(14,165,233,0.3)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(14,165,233,0.4)}
+    .btn-secondary{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.12)}
+    .btn-secondary:hover{background:rgba(255,255,255,0.1);border-color:var(--primary)}
+
+    /* NO PDF placeholder */
+    .pdf-empty{padding:3rem;text-align:center;color:var(--gray)}
+    .pdf-empty i{font-size:2.5rem;margin-bottom:1rem;display:block;color:rgba(14,165,233,0.25)}
+    .pdf-empty p{font-size:.9rem}
+
+    /* STEPS */
+    .steps{display:flex;flex-direction:column;gap:1rem}
+    .step{display:flex;gap:1.2rem;align-items:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.3rem 1.5rem;transition:all .3s}
+    .step:hover{border-color:rgba(14,165,233,0.25);box-shadow:0 8px 25px rgba(14,165,233,0.1)}
+    .step-num{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0}
+    .step-content h4{font-weight:700;color:#fff;margin-bottom:.3rem}
+    .step-content p{color:var(--gray);font-size:.9rem;line-height:1.6}
+
+    /* FADE */
+    .fade-up{opacity:0;transform:translateY(25px);transition:all .7s cubic-bezier(0.22,.61,.36,1)}
+    .fade-up.visible{opacity:1;transform:translateY(0)}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .project-hero-inner{grid-template-columns:1fr}
+      .project-meta{flex-direction:row;flex-wrap:wrap;gap:1rem}
+      .meta-divider{display:none}
+      .project-hero h1{font-size:2.2rem}
+    }
+    @media(max-width:600px){
+      .project-hero{padding:7rem 1.2rem 2.5rem}
+      .content{padding:0 1.2rem 3rem}
+      .project-hero h1{font-size:1.8rem}
+      .schemas-grid{grid-template-columns:1fr}
+      .nav-container{padding:1rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <header id="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><span class="logo-l">L</span><span class="logo-name">DORIOT</span><span class="logo-fr">.FR</span></a>
+      <a href="index.html#projets" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Retour aux projets</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="project-hero">
+    <div class="project-hero-inner fade-up">
+      <div>
+        <div class="project-tag"><i class="fa-solid fa-compact-disc"></i> Déploiement</div>
+        <h1>Microsoft Deployment Toolkit</h1>
+        <p class="lead">Mise en place d'une solution de déploiement automatisé Windows pour standardiser et accélérer l'installation des postes au sein du SDIS 25. La solution permet un déploiement zéro-touch depuis le réseau via PXE.</p>
+        <div class="tech-tags">
+          <span class="tech-tag"><i class="fa-brands fa-windows"></i> Windows Server</span>
+          <span class="tech-tag"><i class="fa-solid fa-compact-disc"></i> MDT</span>
+          <span class="tech-tag"><i class="fa-solid fa-network-wired"></i> WDS / PXE</span>
+          <span class="tech-tag"><i class="fa-solid fa-gears"></i> Sysprep</span>
+          <span class="tech-tag"><i class="fa-solid fa-terminal"></i> PowerShell</span>
+        </div>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Contexte</span>
+          <span class="meta-value">SDIS 25</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-item">
+          <span class="meta-label">Période</span>
+          <span class="meta-value">2023 — Présent</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-item">
+          <span class="meta-label">Statut</span>
+          <span class="meta-value" style="color:#4ade80">✓ En production</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DESCRIPTION -->
+    <div class="block fade-up">
+      <div class="block-title"><i class="fa-solid fa-align-left"></i> Description du projet</div>
+      <div class="description-card">
+        <p>Le projet MDT (Microsoft Deployment Toolkit) a été mis en place pour répondre à un besoin de standardisation et d'automatisation du déploiement des postes de travail au sein du SDIS 25. Avant ce projet, chaque installation était réalisée manuellement, engendrant des écarts de configuration et une perte de temps importante.</p>
+        <p>La solution repose sur un serveur WDS (Windows Deployment Services) qui permet le boot PXE des machines sur le réseau, combiné à MDT qui orchestre le déploiement du master Windows, l'installation des logiciels et l'application des GPO.</p>
+        <p>Le résultat est un déploiement entièrement automatisé (zero-touch) en moins de 30 minutes par poste, avec un master homogène et maintenu à jour via les procédures de capture/recapture.</p>
+      </div>
+    </div>
+
+    <!-- ÉTAPES CLÉS -->
+    <div class="block fade-up">
+      <div class="block-title"><i class="fa-solid fa-list-check"></i> Étapes clés</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Installation & configuration du serveur MDT / WDS</h4>
+            <p>Mise en place du serveur Windows Server, installation des rôles WDS et MDT, configuration du serveur DHCP pour le boot PXE.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Création du master Windows</h4>
+            <p>Installation d'un Windows propre sur une VM de référence, installation des logiciels métier, optimisations et Sysprep pour la généralisation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Capture de l'image WIM</h4>
+            <p>Capture du master via MDT (séquence de tâches Capture), stockage de l'image .WIM sur le serveur de déploiement.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Séquence de déploiement & tests</h4>
+            <p>Création de la Task Sequence de déploiement, configuration des variables, tests sur plusieurs modèles de machines (Dell, HP), corrections et validation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Mise en production & documentation</h4>
+            <p>Déploiement en production, rédaction de la procédure complète (capture, déploiement, maintenance du master).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHÉMAS -->
+    <div class="block fade-up">
+      <div class="block-title"><i class="fa-solid fa-diagram-project"></i> Schémas techniques</div>
+      <div class="schemas-grid">
+
+        <div class="schema-card" onclick="openLightbox(this)">
+          <div class="schema-img-wrapper">
+            <!-- Remplacer src par le chemin de votre image -->
+            <div class="schema-placeholder">
+              <i class="fa-solid fa-image"></i>
+              <span>Schéma 1 — Remplacer par votre image<br><code style="font-size:.75rem;color:var(--primary-light)">src="images/mdt-schema1.png"</code></span>
+            </div>
+            <div class="schema-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+          </div>
+          <div class="schema-info">
+            <div class="schema-name">Architecture réseau MDT / WDS</div>
+            <div class="schema-desc">Vue d'ensemble de l'infrastructure de déploiement</div>
+          </div>
+        </div>
+
+        <div class="schema-card" onclick="openLightbox(this)">
+          <div class="schema-img-wrapper">
+            <div class="schema-placeholder">
+              <i class="fa-solid fa-image"></i>
+              <span>Schéma 2 — Remplacer par votre image<br><code style="font-size:.75rem;color:var(--primary-light)">src="images/mdt-schema2.png"</code></span>
+            </div>
+            <div class="schema-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+          </div>
+          <div class="schema-info">
+            <div class="schema-name">Séquence de tâches MDT</div>
+            <div class="schema-desc">Flux de déploiement zero-touch</div>
+          </div>
+        </div>
+
+      </div>
+      <p style="color:var(--gray);font-size:.85rem;margin-top:1rem"><i class="fa-solid fa-circle-info" style="color:var(--primary-light)"></i> Cliquer sur un schéma pour l'afficher en plein écran.</p>
+    </div>
+
+    <!-- PDF VIEWER -->
+    <div class="block fade-up">
+      <div class="block-title"><i class="fa-solid fa-file-pdf"></i> Documents</div>
+      <div class="pdf-viewer-card">
+        <div class="pdf-tabs">
+          <button class="pdf-tab active" onclick="switchTab(this,'tab-procedure')">
+            <i class="fa-solid fa-book"></i> Procédure MDT
+          </button>
+          <button class="pdf-tab" onclick="switchTab(this,'tab-veille')">
+            <i class="fa-solid fa-file-pdf"></i> Veille technologique
+          </button>
+        </div>
+
+        <div id="tab-procedure" class="pdf-panel active">
+          <div class="pdf-embed-wrap">
+            <iframe src="mdt-procedure.pdf" title="Procédure MDT"></iframe>
+          </div>
+          <div class="pdf-toolbar">
+            <span><i class="fa-solid fa-file-pdf" style="color:var(--primary-light)"></i> mdt-procedure.pdf</span>
+            <a href="mdt-procedure.pdf" download class="btn btn-primary"><i class="fa-solid fa-download"></i> Télécharger</a>
+          </div>
+        </div>
+
+        <div id="tab-veille" class="pdf-panel">
+          <div class="pdf-embed-wrap">
+            <iframe src="veille.pdf" title="Veille technologique"></iframe>
+          </div>
+          <div class="pdf-toolbar">
+            <span><i class="fa-solid fa-file-pdf" style="color:var(--primary-light)"></i> veille.pdf</span>
+            <a href="veille.pdf" download class="btn btn-primary"><i class="fa-solid fa-download"></i> Télécharger</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+
+  <script>
+    // Header
+    window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
+
+    // Fade-up
+    const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+    // PDF tabs
+    function switchTab(btn, panelId){
+      document.querySelectorAll('.pdf-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.pdf-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    // Lightbox
+    function openLightbox(card){
+      const img = card.querySelector('img');
+      if(!img) return; // no image yet (placeholder)
+      const caption = card.querySelector('.schema-name')?.textContent || '';
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-caption').textContent = caption;
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow='hidden';
+    }
+    function closeLightbox(e){
+      if(e && e.target !== document.getElementById('lightbox') && !e.target.closest('.lightbox-close')) return;
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow='';
+    }
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox({target:document.getElementById('lightbox')})});
+  </script>
+</body>
+</html>
