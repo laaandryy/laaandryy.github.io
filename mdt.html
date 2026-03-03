@@ -63,16 +63,18 @@
 
     /* SCHEMAS */
     .schemas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem}
-    .schema-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;transition:all .3s;cursor:pointer}
-    .schema-card:hover{border-color:rgba(14,165,233,0.4);box-shadow:0 15px 40px rgba(14,165,233,0.2);transform:translateY(-4px)}
+    .schema-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;transition:all .3s}
+    .schema-card.has-image{cursor:pointer}
+    .schema-card.has-image:hover{border-color:rgba(14,165,233,0.4);box-shadow:0 15px 40px rgba(14,165,233,0.2);transform:translateY(-4px)}
     .schema-img-wrapper{position:relative;overflow:hidden;background:rgba(0,0,0,0.3);min-height:220px;display:flex;align-items:center;justify-content:center}
     .schema-img-wrapper img{width:100%;height:auto;display:block;transition:transform .4s}
-    .schema-card:hover .schema-img-wrapper img{transform:scale(1.03)}
-    .schema-overlay{position:absolute;inset:0;background:rgba(14,165,233,0.15);opacity:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s;font-size:2rem;color:#fff}
-    .schema-card:hover .schema-overlay{opacity:1}
+    .schema-card.has-image:hover .schema-img-wrapper img{transform:scale(1.03)}
+    .schema-overlay{position:absolute;inset:0;background:rgba(14,165,233,0.15);opacity:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s;font-size:2rem;color:#fff;pointer-events:none}
+    .schema-card.has-image:hover .schema-overlay{opacity:1}
     .schema-placeholder{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:2.5rem;color:var(--gray);text-align:center}
-    .schema-placeholder i{font-size:2.5rem;color:rgba(14,165,233,0.3)}
-    .schema-placeholder span{font-size:.85rem}
+    .schema-placeholder i{font-size:2.5rem;color:rgba(14,165,233,0.25)}
+    .schema-placeholder p{font-size:.85rem;line-height:1.5}
+    .schema-placeholder code{font-size:.78rem;color:var(--primary-light);background:rgba(14,165,233,0.08);padding:.2rem .5rem;border-radius:5px;display:inline-block;margin-top:.3rem}
     .schema-info{padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,0.07)}
     .schema-name{font-weight:600;color:#fff;font-size:.95rem;margin-bottom:.2rem}
     .schema-desc{font-size:.82rem;color:var(--gray)}
@@ -134,6 +136,8 @@
       .schemas-grid{grid-template-columns:1fr}
       .nav-container{padding:1rem}
     }
+
+    
   </style>
 </head>
 <body>
@@ -238,12 +242,12 @@
     <div class="block fade-up">
       <div class="block-title"><i class="fa-solid fa-diagram-project"></i> Schémas techniques</div>
       <div class="schemas-grid">
-
-        <div class="schema-card" onclick="openLightbox(this)">
+        <div class="schema-card">
           <div class="schema-img-wrapper">
-            <div class="schema-placeholder">
+            <img src="img/schema-mdt.png" alt="Architecture réseau MDT / WDS" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="schema-placeholder" style="display:none">
               <i class="fa-solid fa-image"></i>
-              <span>Schéma 1 — Fonctionnement interne<br><code style="font-size:.75rem;color:var(--primary-light)">src="img/schema-mdt.png"</code></span>
+              <p>Image non trouvée<br><code>img/schema-mdt.png</code></p>
             </div>
             <div class="schema-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
@@ -253,11 +257,12 @@
           </div>
         </div>
 
-        <div class="schema-card" onclick="openLightbox(this)">
+        <div class="schema-card">
           <div class="schema-img-wrapper">
-            <div class="schema-placeholder">
+            <img src="images/schema2-mdt.png" alt="Séquence de tâches MDT" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="schema-placeholder" style="display:none">
               <i class="fa-solid fa-image"></i>
-              <span>Schéma 2 — Remplacer par votre image<br><code style="font-size:.75rem;color:var(--primary-light)">src="images/mdt-schema2.png"</code></span>
+              <p>Image non trouvée<br><code>images/schema2-mdt.png</code></p>
             </div>
             <div class="schema-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
@@ -316,37 +321,54 @@
   </div>
 
   <script>
-    // Header
-    window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', scrollY > 50);
+    });
 
-    // Fade-up
-    const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+    // Fade-up animations
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
     // PDF tabs
-    function switchTab(btn, panelId){
-      document.querySelectorAll('.pdf-tab').forEach(t=>t.classList.remove('active'));
-      document.querySelectorAll('.pdf-panel').forEach(p=>p.classList.remove('active'));
+    function switchTab(btn, panelId) {
+      document.querySelectorAll('.pdf-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.pdf-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById(panelId).classList.add('active');
     }
 
-    // Lightbox
-    function openLightbox(card){
+    // Schema cards lightbox
+    document.querySelectorAll('.schema-card').forEach(card => {
       const img = card.querySelector('img');
-      if(!img) return; // no image yet (placeholder)
-      const caption = card.querySelector('.schema-name')?.textContent || '';
+      if (!img) return;
+      const activate = () => {
+        card.classList.add('has-image');
+        card.addEventListener('click', () => openLightbox(card));
+      };
+      if (img.complete && img.naturalWidth > 0) { activate(); }
+      else { img.addEventListener('load', activate); }
+    });
+
+    function openLightbox(card) {
+      const img = card.querySelector('img');
+      if (!img) return;
       document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox-caption').textContent = caption;
+      document.getElementById('lightbox-caption').textContent = card.querySelector('.schema-name')?.textContent || '';
       document.getElementById('lightbox').classList.add('active');
-      document.body.style.overflow='hidden';
+      document.body.style.overflow = 'hidden';
     }
-    function closeLightbox(e){
-      if(e && e.target !== document.getElementById('lightbox') && !e.target.closest('.lightbox-close')) return;
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightbox') && !e.target.closest('.lightbox-close')) return;
       document.getElementById('lightbox').classList.remove('active');
-      document.body.style.overflow='';
+      document.body.style.overflow = '';
     }
-    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox({target:document.getElementById('lightbox')})});
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') });
+    });
   </script>
 </body>
 </html>
