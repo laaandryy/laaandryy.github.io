@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Erreur — Landry Doriot</title>
+  <link rel="shortcut icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/464920bd8b.js" crossorigin="anonymous"></script>
+  <meta name="theme-color" content="#0ea5e9">
+
+  <style>
+    :root{
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #38bdf8;
+      --accent: #8b5cf6;
+      --gray: #64748b;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0f172a;
+      color:#e2e8f0;
+      overflow-x:hidden;
+      line-height:1.6;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .bg-gradient{
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      z-index:-1;
+      background:linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    }
+    .bg-gradient::before{
+      content:'';
+      position:absolute;
+      width:500px;height:500px;
+      background:radial-gradient(circle, rgba(14,165,233,0.15) 0%, transparent 70%);
+      top:10%;left:10%;
+      animation:float 20s infinite ease-in-out;
+    }
+    .bg-gradient::after{
+      content:'';
+      position:absolute;
+      width:400px;height:400px;
+      background:radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
+      bottom:10%;right:10%;
+      animation:float 25s infinite ease-in-out reverse;
+    }
+    @keyframes float{
+      0%,100%{transform:translate(0,0) scale(1)}
+      33%{transform:translate(30px,-50px) scale(1.1)}
+      66%{transform:translate(-20px,20px) scale(0.9)}
+    }
+
+    header{
+      position:fixed;
+      top:0;left:0;right:0;
+      z-index:100;
+      backdrop-filter:blur(20px);
+      background:rgba(15,23,42,0.8);
+      border-bottom:1px solid rgba(148,163,184,0.1);
+    }
+    .nav-container{
+      max-width:1400px;
+      margin:0 auto;
+      padding:1rem 2rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:1.2rem;
+      font-weight:700;
+      color:#fff;
+      text-decoration:none;
+    }
+    .logo:hover{opacity:0.8}
+    .logo span{color:var(--primary-light)}
+
+    nav{display:flex;gap:2rem;align-items:center}
+    nav a{
+      color:#cbd5e1;
+      text-decoration:none;
+      font-weight:500;
+      position:relative;
+      transition:color 0.3s;
+    }
+    nav a::after{
+      content:'';
+      position:absolute;
+      bottom:-5px;left:0;
+      width:0;height:2px;
+      background:var(--primary);
+      transition:width 0.3s;
+    }
+    nav a:hover{color:#fff}
+    nav a:hover::after{width:100%}
+
+    .burger{
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+      padding:8px;
+    }
+    .burger span{
+      width:25px;height:3px;
+      background:#fff;
+      border-radius:3px;
+      transition:all 0.3s;
+    }
+
+    main{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:8rem 2rem 4rem;
+    }
+    .error-container{
+      max-width:640px;
+      width:100%;
+      text-align:center;
+    }
+
+    .error-code-wrapper{
+      position:relative;
+      display:inline-block;
+      margin-bottom:1.5rem;
+    }
+    .error-code{
+      font-size:clamp(5rem, 20vw, 9rem);
+      font-weight:800;
+      line-height:1;
+      background:linear-gradient(135deg, #fff 0%, var(--primary-light) 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      letter-spacing:-4px;
+    }
+    .error-code-glow{
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      width:120%;height:120%;
+      background:radial-gradient(circle, rgba(14,165,233,0.18) 0%, transparent 70%);
+      pointer-events:none;
+      animation:glowPulse 3s ease-in-out infinite;
+    }
+    @keyframes glowPulse{
+      0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}
+      50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+    }
+
+    .error-icon-bar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:0.6rem;
+      margin-bottom:1.2rem;
+    }
+    .error-icon-bar .line{
+      height:2px;width:40px;
+      background:linear-gradient(90deg, transparent, rgba(14,165,233,0.5));
+      border-radius:2px;
+    }
+    .error-icon-bar .line.right{
+      background:linear-gradient(90deg, rgba(14,165,233,0.5), transparent);
+    }
+    .error-icon-bar i{
+      color:var(--primary-light);
+      font-size:1.2rem;
+    }
+
+    .error-title{
+      font-size:clamp(1.3rem, 4vw, 1.8rem);
+      font-weight:700;
+      color:#fff;
+      margin-bottom:0.8rem;
+    }
+    .error-desc{
+      color:var(--gray);
+      font-size:1rem;
+      margin-bottom:2rem;
+      line-height:1.6;
+    }
+
+    .error-actions{
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-bottom:2.5rem;
+    }
+
+    .btn{
+      padding:0.75rem 1.5rem;
+      border-radius:12px;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:all 0.3s;
+      border:none;
+      cursor:pointer;
+      font-size:0.95rem;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color:#fff;
+      box-shadow:0 8px 20px rgba(14,165,233,0.3);
+    }
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(14,165,233,0.4)}
+    .btn-secondary{
+      background:rgba(255,255,255,0.05);
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(10px);
+    }
+    .btn-secondary:hover{background:rgba(255,255,255,0.1);border-color:var(--primary)}
+
+    .error-hints{
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .error-hint{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:10px;
+      padding:0.6rem 1rem;
+      font-size:0.85rem;color:#94a3b8;
+      text-decoration:none;
+      transition:all 0.3s;
+    }
+    .error-hint i{color:var(--primary-light);font-size:0.8rem}
+    .error-hint:hover{background:rgba(14,165,233,0.08);border-color:rgba(14,165,233,0.25);color:#fff}
+
+    /* ── Thèmes par code ── */
+
+    /* 404 – bleu (défaut) */
+    [data-code="404"] .error-icon-bar i{color:#38bdf8}
+
+    /* 401 – orange */
+    [data-code="401"] .error-icon-bar i{color:#fb923c}
+    [data-code="401"] .error-code{background:linear-gradient(135deg,#fff 0%,#fdba74 100%);-webkit-background-clip:text;background-clip:text}
+    [data-code="401"] .error-code-glow{background:radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%)}
+
+    /* 403 – jaune */
+    [data-code="403"] .error-icon-bar i{color:#fbbf24}
+    [data-code="403"] .error-code{background:linear-gradient(135deg,#fff 0%,#fde68a 100%);-webkit-background-clip:text;background-clip:text}
+    [data-code="403"] .error-code-glow{background:radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%)}
+
+    /* 405 – rose */
+    [data-code="405"] .error-icon-bar i{color:#f472b6}
+    [data-code="405"] .error-code{background:linear-gradient(135deg,#fff 0%,#f9a8d4 100%);-webkit-background-clip:text;background-clip:text}
+    [data-code="405"] .error-code-glow{background:radial-gradient(circle, rgba(236,72,153,0.18) 0%, transparent 70%)}
+
+    /* 408 – cyan */
+    [data-code="408"] .error-icon-bar i{color:#22d3ee}
+    [data-code="408"] .error-code{background:linear-gradient(135deg,#fff 0%,#a5f3fc 100%);-webkit-background-clip:text;background-clip:text}
+    [data-code="408"] .error-code-glow{background:radial-gradient(circle, rgba(6,182,212,0.18) 0%, transparent 70%)}
+
+    /* 500 – rouge */
+    [data-code="500"] .error-icon-bar i{color:#f87171}
+    [data-code="500"] .error-code{background:linear-gradient(135deg,#fff 0%,#fca5a5 100%);-webkit-background-clip:text;background-clip:text}
+    [data-code="500"] .error-code-glow{background:radial-gradient(circle, rgba(239,68,68,0.18) 0%, transparent 70%)}
+
+    /* 503 – violet */
+    [data-code="503"] .error-icon-bar i{color:#a78bfa}
+    [data-code="503"] .error-code{background:linear-gradient(135deg,#fff 0%,#c4b5fd 100%);-webkit-background-clip:text;background-clip:text}
+    [data-code="503"] .error-code-glow{background:radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 70%)}
+
+    footer{
+      background:rgba(0,0,0,0.3);
+      padding:1.5rem 2rem;
+      text-align:center;
+      border-top:1px solid rgba(255,255,255,0.1);
+    }
+    .footer-content{max-width:1400px;margin:0 auto}
+    .footer-logo{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:0.4rem}
+    .footer-text{color:var(--gray);font-size:0.88rem}
+
+    @media(max-width:768px){
+      nav{position:fixed;top:80px;right:-100%;flex-direction:column;background:rgba(15,23,42,0.98);padding:2rem;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.5);transition:right 0.3s;min-width:200px}
+      nav.active{right:2rem}
+      .burger{display:flex}
+    }
+    @media(max-width:480px){
+      .nav-container{padding:1rem}
+      .logo{font-size:1rem}
+      .error-actions{flex-direction:column;align-items:center}
+      .error-actions .btn{width:100%;justify-content:center}
+      .error-hints{flex-direction:column;align-items:center}
+      .error-hint{width:100%;justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <header id="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div><span>L</span>DORIOT<span>.FR</span></div>
+      </a>
+      <nav id="nav">
+        <a href="index.html#experience">Expériences</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projets">Projets</a>
+        <a href="index.html#cv">CV</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="burger" id="burger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="error-container" id="errorContainer" data-code="404">
+
+      <div class="error-code-wrapper">
+        <div class="error-code-glow"></div>
+        <div class="error-code" id="errorCode">404</div>
+      </div>
+
+      <div class="error-icon-bar">
+        <span class="line"></span>
+        <i class="fa-solid fa-magnifying-glass" id="errorIcon"></i>
+        <span class="line right"></span>
+      </div>
+
+      <h1 class="error-title" id="errorTitle">Page introuvable</h1>
+      <p class="error-desc" id="errorDesc">
+        La page que vous recherchez n'existe pas ou a été déplacée.<br>
+        Vérifiez l'URL ou revenez à l'accueil.
+      </p>
+
+      <div class="error-actions">
+        <a href="index.html" class="btn btn-primary">
+          <i class="fa-solid fa-house"></i>
+          Retour à l'accueil
+        </a>
+        <a href="index.html#contact" class="btn btn-secondary">
+          <i class="fa-solid fa-envelope"></i>
+          Me contacter
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">LDORIOT.FR</div>
+      <p class="footer-text">© 2026 Landry Doriot — Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+    burger.addEventListener('click', () => nav.classList.toggle('active'));
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => nav.classList.remove('active')));
+
+    const params = new URLSearchParams(window.location.search);
+    const codeParam = params.get('code');
+
+    const errors = {
+      '401': {
+        icon: 'fa-user-lock',
+        title: 'Non autorisé',
+        desc: 'Vous devez vous authentifier pour accéder à cette ressource.<br>Connectez-vous puis réessayez.'
+      },
+      '403': {
+        icon: 'fa-lock',
+        title: 'Accès refusé',
+        desc: 'Vous n\'avez pas les permissions nécessaires pour accéder à cette ressource.<br>Si vous pensez qu\'il s\'agit d\'une erreur, contactez-moi.'
+      },
+      '404': {
+        icon: 'fa-magnifying-glass',
+        title: 'Page introuvable',
+        desc: 'La page que vous recherchez n\'existe pas ou a été déplacée.<br>Vérifiez l\'URL ou revenez à l\'accueil.'
+      },
+      '405': {
+        icon: 'fa-ban',
+        title: 'Méthode non autorisée',
+        desc: 'La méthode HTTP utilisée n\'est pas prise en charge pour cette ressource.<br>Vérifiez votre requête ou contactez-moi.'
+      },
+      '408': {
+        icon: 'fa-hourglass-half',
+        title: 'Délai d\'attente dépassé',
+        desc: 'La requête a pris trop de temps à être traitée et a expiré.<br>Vérifiez votre connexion et réessayez.'
+      },
+      '500': {
+        icon: 'fa-triangle-exclamation',
+        title: 'Erreur interne du serveur',
+        desc: 'Une erreur inattendue s\'est produite côté serveur.<br>L\'incident a été enregistré. Réessayez dans quelques instants.'
+      },
+      '503': {
+        icon: 'fa-clock',
+        title: 'Service temporairement indisponible',
+        desc: 'Le service est momentanément en maintenance.<br>Merci de réessayer dans quelques minutes.'
+      }
+    };
+
+    if (codeParam && errors[codeParam]) {
+      const e = errors[codeParam];
+      const container = document.getElementById('errorContainer');
+      container.dataset.code = codeParam;
+      document.getElementById('errorCode').textContent = codeParam;
+      document.getElementById('errorIcon').className = `fa-solid ${e.icon}`;
+      document.getElementById('errorTitle').textContent = e.title;
+      document.getElementById('errorDesc').innerHTML = e.desc;
+      document.title = `Erreur ${codeParam} — Landry Doriot`;
+    }
+  </script>
+</body>
+</html>
