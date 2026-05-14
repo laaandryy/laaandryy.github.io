@@ -80,29 +80,6 @@
     .fade-up.visible{opacity:1;transform:translateY(0)}
     @media(max-width:900px){.project-hero-inner{grid-template-columns:1fr}.project-hero h1{font-size:2.2rem}}
     @media(max-width:600px){.project-hero{padding:7rem 1.2rem 2.5rem}.content{padding:0 1.2rem 3rem}.schemas-grid{grid-template-columns:1fr}.nav-container{padding:1rem}}
-
-    /* Image upload UX */
-    .schema-card{ cursor:pointer; }
-    .schema-placeholder{ transition: background .2s; }
-    .schema-card:hover .schema-placeholder{ background: rgba(14,165,233,0.08); }
-    .schema-placeholder i{ transition: transform .3s; }
-    .schema-card:hover .schema-placeholder i{ transform: scale(1.15); }
-    .img-upload-input{ display:none!important; }
-    .img-remove-btn{
-      display:none;
-      position:absolute;
-      top:.6rem; right:.6rem;
-      width:32px; height:32px;
-      border-radius:50%;
-      background:rgba(239,68,68,0.85);
-      border:none; color:#fff;
-      font-size:.85rem;
-      align-items:center; justify-content:center;
-      cursor:pointer;
-      z-index:10;
-      transition: background .2s, transform .2s;
-    }
-    .img-remove-btn:hover{ background:rgba(239,68,68,1); transform:scale(1.1); }
   </style>
 </head>
 <body>
@@ -131,7 +108,7 @@
       <div class="project-meta">
         <div class="meta-item"><span class="meta-label">Contexte</span><span class="meta-value">SDIS 25</span></div>
         <div class="meta-divider"></div>
-        <div class="meta-item"><span class="meta-label">Période</span><span class="meta-value">2024 — Présent</span></div>
+        <div class="meta-item"><span class="meta-label">Période</span><span class="meta-value">2025 — Présent</span></div>
         <div class="meta-divider"></div>
         <div class="meta-item"><span class="meta-label">Statut</span><span class="meta-value" style="color:#fbbf24">⏳ POC en cours</span></div>
       </div>
@@ -143,7 +120,7 @@
     <div class="block fade-up">
       <div class="block-title"><i class="fa-solid fa-align-left"></i> Description du projet</div>
       <div class="description-card">
-        <p>Ce projet de Proof of Concept (POC) consiste en la mise en place d'une infrastructure de virtualisation HA basée sur Proxmox VE pour le SDIS 25. L'objectif est de fournir un environnement de test robuste et redondant pour héberger l'ensemble des VMs de test du service.</p>
+        <p>Ce projet de Proof of Concept consiste en la mise en place d'une infrastructure de virtualisation HA basée sur Proxmox VE pour le SDIS 25. L'objectif est de fournir un environnement de test robuste et redondant pour héberger l'ensemble des VMs de test du service.</p>
         <p>L'infrastructure repose sur un cluster Proxmox multi-nœuds avec réplication du stockage, permettant la migration à chaud des VMs et la reprise automatique en cas de défaillance d'un nœud. La solution apporte une flexibilité importante pour les tests et expérimentations techniques.</p>
         <p>Ce POC sert également de base de réflexion pour une future migration de l'infrastructure de production vers une solution de virtualisation open-source plus maîtrisée.</p>
       </div>
@@ -155,33 +132,47 @@
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-content">
-            <h4>Dimensionnement & choix matériel</h4>
-            <p>Évaluation des besoins en ressources (CPU, RAM, stockage), sélection des serveurs hôtes, planification du réseau (VLANs dédiés).</p>
+            <h4>Définition du besoin et des modalités</h4>
+            <p>Réalisation d'un comparatif précis sur les principales solutions d'hypervisions du marché 2026. Participation à des reunions avec des acteurs comme XCP-Ng.. La solution finale retenue est Proxmox VE.</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-content">
-            <h4>Installation des nœuds Proxmox</h4>
-            <p>Installation de Proxmox VE sur chaque nœud, configuration réseau (bridges, bonds), paramétrage initial et mise à jour.</p>
+            <h4>Configuration matérielle</h4>
+            <p>Remise à zero d'anciens serveurs de production (3 x Dell PowerEdge R730) composé chacun de Intel Xeon E5-2667 v4 @3.20GHZ (2sockets), Chipset Intel C610/x99 séries, 256 GiB DDR4 2400MHz 8x32GiB, 8 cartes Intel i350 1Gbs, 2 × 200 GB SSD (Raid 1), 6 × 8 TB SAS (Raid 5).    </p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Configuration des switchs Cisco</h4>
+            <p>Configuration des switch : création des bonds LACP (6 bonds de 3 ports chacun, mtu 9000), création et configuration des vlans (3 vlans + 1 existant). Trunk vers le switch relié au coeur du réseau (1gb/s utilisé uniquement pour l'administration). </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Installation des nœuds Proxmox</h4>
+            <p>Installation de Proxmox VE sur chaque nœud, configuration réseau (bridges, bonds LACP), paramétrage initial et mise à jour.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
           <div class="step-content">
             <h4>Création du cluster & configuration HA</h4>
             <p>Création du cluster Proxmox, ajout des nœuds, configuration du quorum, mise en place du groupe HA et des règles de failover automatique.</p>
           </div>
         </div>
         <div class="step">
-          <div class="step-num">4</div>
+          <div class="step-num">6</div>
           <div class="step-content">
             <h4>Configuration du stockage partagé</h4>
             <p>Mise en place du stockage partagé (NFS ou Ceph), configuration des datastores dans Proxmox, tests de réplication entre nœuds.</p>
           </div>
         </div>
         <div class="step">
-          <div class="step-num">5</div>
+          <div class="step-num">7</div>
           <div class="step-content">
             <h4>Tests de basculement & documentation</h4>
             <p>Simulations de pannes, validation du basculement automatique des VMs, mesure des temps de reprise, rédaction de la procédure.</p>
@@ -190,126 +181,56 @@
       </div>
     </div>
 
+    <!-- SCHÉMAS -->
     <div class="block fade-up">
       <div class="block-title"><i class="fa-solid fa-diagram-project"></i> Schémas techniques</div>
       <div class="schemas-grid">
-        <div class="schema-card">
+
+        <div class="schema-card" onclick="openLightbox('img/schema-rzo-proxmox.png', 'Architecture réseau MDT / WDS')">
           <div class="schema-img-wrapper">
-            <div class="schema-placeholder">
+            <img src="img/schema-rzo-proxmox.png" alt="Schéma physique/réseaux" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="schema-placeholder" style="display:none">
               <i class="fa-solid fa-image"></i>
-              <span>Schéma 1 — Remplacer par votre image<br><code style="font-size:.75rem;color:#c4b5fd">src="images/proxmox-schema1.png"</code></span>
+              <p>Image non trouvée<br><code>img/schema-rzo-proxmox.png</code></p>
             </div>
             <div class="schema-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
           <div class="schema-info">
-            <div class="schema-name">Architecture cluster Proxmox</div>
-            <div class="schema-desc">Vue d'ensemble des nœuds, réseau et stockage</div>
+            <div class="schema-name">Architecture réseau Proxmox</div>
+            <div class="schema-desc">Schéma liens réseaux </div>
           </div>
         </div>
-        <div class="schema-card">
+
+        <div class="schema-card" onclick="openLightbox('img/schema-logique-proxmox.png', 'Séquence de tâches MDT')">
           <div class="schema-img-wrapper">
-            <div class="schema-placeholder">
+            <img src="img/schema-logique-proxmox.png" alt="Séquence de tâches MDT" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="schema-placeholder" style="display:none">
               <i class="fa-solid fa-image"></i>
-              <span>Schéma 2 — Remplacer par votre image<br><code style="font-size:.75rem;color:#c4b5fd">src="images/proxmox-schema2.png"</code></span>
+              <p>Image non trouvée<br><code>img/schema-logique-proxmox</code></p>
             </div>
             <div class="schema-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
           <div class="schema-info">
-            <div class="schema-name">Plan réseau VLAN</div>
-            <div class="schema-desc">Segmentation réseau de l'infrastructure</div>
+            <div class="schema-name">Schéma logique Proxmox</div>
+            <div class="schema-desc">Fonctionnement interne</div>
           </div>
         </div>
+
       </div>
-      <p style="color:var(--gray);font-size:.85rem;margin-top:1rem"><i class="fa-solid fa-circle-info" style="color:#c4b5fd"></i> Cliquer sur un schéma pour l'afficher en plein écran.</p>
+      <p style="color:var(--gray);font-size:.85rem;margin-top:1rem"><i class="fa-solid fa-circle-info" style="color:var(--primary-light)"></i> Cliquer sur un schéma pour l'afficher en plein écran.</p>
     </div>
 
-    <div class="block fade-up">
-      <div class="block-title"><i class="fa-solid fa-file-pdf"></i> Documents</div>
-      <div class="pdf-viewer-card">
-        <div class="pdf-embed-wrap">
-          <iframe src="proxmox-procedure.pdf" title="Procédure Proxmox"></iframe>
-        </div>
-        <div class="pdf-toolbar">
-          <span><i class="fa-solid fa-file-pdf" style="color:#c4b5fd"></i> proxmox-procedure.pdf</span>
-          <a href="proxmox-procedure.pdf" download class="btn btn-primary"><i class="fa-solid fa-download"></i> Télécharger</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
-    <img id="lightbox-img" src="" alt="">
-    <div class="lightbox-caption" id="lightbox-caption"></div>
-  </div>
 
   <script>
-    window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
-    const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-// ── Image upload system ──────────────────────────────────────────
-    function triggerUpload(card, event) {
-      event.stopPropagation();
-      const input = card.querySelector('.img-upload-input');
-      input.click();
-    }
+    window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', scrollY > 50));
 
-    function handleImageUpload(input, card) {
-      const file = input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const wrapper = card.querySelector('.schema-img-wrapper');
-        // Remove placeholder
-        const placeholder = wrapper.querySelector('.schema-placeholder');
-        if (placeholder) placeholder.remove();
-        // Insert or update img
-        let img = wrapper.querySelector('img.schema-img');
-        if (!img) {
-          img = document.createElement('img');
-          img.className = 'schema-img';
-          img.style.cssText = 'width:100%;height:auto;display:block;transition:transform .4s;';
-          wrapper.insertBefore(img, wrapper.querySelector('.schema-overlay'));
-        }
-        img.src = e.target.result;
-        // Update card click to lightbox
-        card.onclick = function() { openLightbox(card); };
-        // Show remove button
-        let removeBtn = card.querySelector('.img-remove-btn');
-        if (!removeBtn) {
-          removeBtn = document.createElement('button');
-          removeBtn.className = 'img-remove-btn';
-          removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-          removeBtn.title = 'Supprimer l\'image';
-          removeBtn.onclick = function(ev) { ev.stopPropagation(); removeImage(card); };
-          wrapper.appendChild(removeBtn);
-        }
-        removeBtn.style.display = 'flex';
-      };
-      reader.readAsDataURL(file);
-    }
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    }), { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
-    function removeImage(card) {
-      const wrapper = card.querySelector('.schema-img-wrapper');
-      const img = wrapper.querySelector('img.schema-img');
-      if (img) img.remove();
-      const removeBtn = wrapper.querySelector('.img-remove-btn');
-      if (removeBtn) removeBtn.style.display = 'none';
-      // Re-add placeholder
-      const ph = document.createElement('div');
-      ph.className = 'schema-placeholder';
-      ph.innerHTML = '<i class=\"fa-solid fa-image\"></i><span>Cliquer pour ajouter une image</span>';
-      wrapper.insertBefore(ph, wrapper.querySelector('.schema-overlay'));
-      // Reset click
-      card.onclick = function(ev) { triggerUpload(card, ev); };
-    }
-
-    function openLightbox(card) {
-      const img = card.querySelector('img.schema-img');
-      if (!img) return;
-      const caption = card.querySelector('.schema-name')?.textContent || '';
-      document.getElementById('lightbox-img').src = img.src;
+    function openLightbox(src, caption) {
+      document.getElementById('lightbox-img').src = src;
       document.getElementById('lightbox-caption').textContent = caption;
       document.getElementById('lightbox').classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -323,23 +244,6 @@
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') });
-    });
-
-    // Init all cards on load
-    document.querySelectorAll('.schema-card').forEach(card => {
-      // Create hidden file input
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.className = 'img-upload-input';
-      input.style.display = 'none';
-      input.onchange = function() { handleImageUpload(this, card); };
-      card.appendChild(input);
-      // Set click to upload
-      card.onclick = function(ev) { triggerUpload(card, ev); };
-      // Update placeholder text
-      const ph = card.querySelector('.schema-placeholder span');
-      if (ph) ph.innerHTML = '<strong style="color:#fff">Cliquer pour ajouter une image</strong><br><span style="font-size:.78rem">PNG, JPG, SVG...</span>';
     });
   </script>
 </body>
